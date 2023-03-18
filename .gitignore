@@ -1,6 +1,2 @@
 .env
 .backupList.csv
-__pycache__/
-Include/
-Scripts/
-Lib/

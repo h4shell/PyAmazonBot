@@ -5,7 +5,7 @@ import random
 import time
 import requests
 from datetime import datetime
-import config
+import config.config as config
 from dotenv import load_dotenv
 from pathlib import Path
 import os
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     print("ora (" + datetime.now().strftime('%H:%M') + "): Bot Inizializzato....")
 
     try:
-        f = open(".backupList.csv", "r")
+        f = open("data/backupList.csv", "r")
         lista2 = list(f.split(","))
         f.close()
     except:
@@ -205,7 +205,7 @@ if __name__ == "__main__":
 
                 lista2.append("https://www.amazon.it" + i)
 
-                f = open(".backupList.csv", "a")
+                f = open("data/backupList.csv", "a")
                 lista_file = ','.join(lista2)
                 f.write(lista_file)
                 f.close()

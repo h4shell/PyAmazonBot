@@ -1,2 +1,6 @@
 .env
 .backupList.csv
+data/*
+__pycache__
+
+

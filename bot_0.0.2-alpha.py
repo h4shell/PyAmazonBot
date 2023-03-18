@@ -10,14 +10,15 @@ from dotenv import load_dotenv
 from pathlib import Path
 import os
 
-dotenv_path = Path('.env')
-load_dotenv(dotenv_path=dotenv_path)
+# dotenv_path = Path('.env')
+# load_dotenv(dotenv_path=dotenv_path)
+
 
 timer = (8, 19)
 
-apiToken = os.getenv("API_TOKEN")
-chatID = os.getenv("CHAT_ID")
-refferal = "%26tag=" + os.getenv("REFFERAL_CODE")
+# apiToken = os.getenv("API_TOKEN")
+# chatID = os.getenv("CHAT_ID")
+# refferal = "%26tag=" + os.getenv("REFFERAL_CODE")
 
 
 fun = random.randint(900, 1600)
@@ -26,6 +27,33 @@ lista2 = []
 cont = 0
 
 headers = config.headers
+
+
+def csave():
+    f = open("data/creds", "a")
+    TOKEN_ID = input("> Inserisci il Token del Bot: ")
+    CHAT_ID = input("> Inserisci il nome della Chat Telegram: ")
+    REFFERAL_CODE = input("> Inserisci il Refferal Code di Amazon Affiliate: ")
+    f.write(TOKEN_ID + "," + CHAT_ID + "," + REFFERAL_CODE)
+    f.close()
+
+
+def login():
+    f = open("data/creds", "r").read()
+    x = list(f.split(","))
+    return {"TOKEN_ID": x[0],
+            "CHAT_ID": x[1],
+            "REFFERAL_CODE": x[2]}
+
+
+try:
+    creds = login()
+    apiToken = creds["TOKEN_ID"]
+    chatID = ["CHAT_ID"]
+    refferal = ["REFFERAL_CODE"]
+
+except:
+    csave()
 
 
 def orologio(timer):
@@ -157,10 +185,11 @@ def trova_prezzo_e_sconto(url):
 
 
 if __name__ == "__main__":
+
     print("ora (" + datetime.now().strftime('%H:%M') + "): Bot Inizializzato....")
 
     try:
-        f = open("data/backupList.csv", "r")
+        f = open("data/backupList.csv", "r").read
         lista2 = list(f.split(","))
         f.close()
     except:

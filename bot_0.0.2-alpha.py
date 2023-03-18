@@ -49,8 +49,8 @@ def login():
 try:
     creds = login()
     apiToken = creds["TOKEN_ID"]
-    chatID = ["CHAT_ID"]
-    refferal = ["REFFERAL_CODE"]
+    chatID = creds["CHAT_ID"]
+    refferal = creds["REFFERAL_CODE"]
 
 except:
     csave()
@@ -189,9 +189,11 @@ if __name__ == "__main__":
     print("ora (" + datetime.now().strftime('%H:%M') + "): Bot Inizializzato....")
 
     try:
-        f = open("data/backupList.csv", "r").read
+        f = open("data/backupList.csv", "r").read()
         lista2 = list(f.split(","))
+        print(lista2)
         f.close()
+
     except:
         pass
 

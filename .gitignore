@@ -3,4 +3,4 @@
 __pycache__/
 Include/
 Scripts/
-/Lib
+Lib/

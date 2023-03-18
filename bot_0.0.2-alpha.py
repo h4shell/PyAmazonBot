@@ -191,7 +191,7 @@ if __name__ == "__main__":
     try:
         f = open("data/backupList.csv", "r").read()
         lista2 = list(f.split(","))
-        print(lista2)
+
         f.close()
 
     except:

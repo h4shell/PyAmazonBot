@@ -6,9 +6,9 @@ import time
 import requests
 from datetime import datetime
 import config.config as config
-from dotenv import load_dotenv
-from pathlib import Path
-import os
+# from dotenv import load_dotenv
+# from pathlib import Path
+# import os
 
 # dotenv_path = Path('.env')
 # load_dotenv(dotenv_path=dotenv_path)
@@ -246,7 +246,7 @@ if __name__ == "__main__":
                 lista_file = ','.join(lista2)
                 f.write(lista_file)
                 f.close()
-                n = "https://www.amazon.it" + i + "%26" + "linkCode=ll1" + refferal
+                n = "https://www.amazon.it" + i + "%26" + "linkCode=ll1" + "%26tag=" + refferal
                 check = controllo(n)
 
                 if check == True:

@@ -36,6 +36,9 @@ def csave():
     REFFERAL_CODE = input("> Inserisci il Refferal Code di Amazon Affiliate: ")
     f.write(TOKEN_ID + "," + CHAT_ID + "," + REFFERAL_CODE)
     f.close()
+    return {"TOKEN_ID": TOKEN_ID,
+            "CHAT_ID": CHAT_ID,
+            "REFFERAL_CODE": REFFERAL_CODE}
 
 
 def login():
@@ -53,7 +56,10 @@ try:
     refferal = creds["REFFERAL_CODE"]
 
 except:
-    csave()
+    creds = csave()
+    apiToken = creds["TOKEN_ID"]
+    chatID = creds["CHAT_ID"]
+    refferal = creds["REFFERAL_CODE"]
 
 
 def orologio(timer):

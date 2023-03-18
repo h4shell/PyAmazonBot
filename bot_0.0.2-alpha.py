@@ -133,7 +133,7 @@ def send_to_telegram(message):
 def codegen():
 
     x = random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(
-        string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
+        string.ascii_letters) + random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
     return x
 
 

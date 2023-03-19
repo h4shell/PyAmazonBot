@@ -21,7 +21,7 @@ timer = (8, 19)
 # refferal = "%26tag=" + os.getenv("REFFERAL_CODE")
 
 
-fun = random.randint(1000, 2600)
+fun = random.randint(1900, 3600)
 lista = []
 lista2 = []
 cont = 0

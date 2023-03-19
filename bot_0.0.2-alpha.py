@@ -92,7 +92,7 @@ def send_to_telegram(message):
     product_title = message["product_title"]
     code = codegen()
 
-    apiURL = f'https://api.telegram.org/bot{apiToken}/sendMessage?chat_id=@{chatID}&parse_mode=HTML&text=⌛️OFFERTA A TEMPO⌛️\n\n<b>{product_title[:90]}</b>\n\nPrezzo: <b>{discounted_price}</b> <s>{original_price}</s>\nSconto: <b>{discounted_percentage}</b>\nLink: <a href="{link}">https://amzn.to/{code}</a>\n'
+    apiURL = f'https://api.telegram.org/bot{apiToken}/sendMessage?chat_id=@{chatID}&parse_mode=HTML&text=⌛️OFFERTA A TEMPO⌛️\n\n<b>{product_title[:90]}</b>\n\nPrezzo: <b>{discounted_price}</b> <s>{original_price}</s>\nSconto: <b>{discounted_percentage}</b>\nLink: <a href="{link}">https://amzn.to/{code}</a>'
 
     # api = {"URL": url, "discounted_price": discounted_price, "original_price": original_price, "discount_percentage": discount_percentage}
 
@@ -171,7 +171,7 @@ def trova_prezzo_e_sconto(url):
         original_price = original_price[0].find(
             "span", {"class": "a-offscreen"}).text
         discount_percentage = soup.find('span', {'class': 'savingsPercentage'})
-        discount_percentage = discount_percentage.text.strip()
+        discount_percentage = discount_percentage.text.strip()[1:]
 
         product_title = soup.find_all('span', {'id': 'productTitle'})
         product_title = soup.find('span', {'id': 'productTitle'})

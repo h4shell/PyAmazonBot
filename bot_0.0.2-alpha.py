@@ -6,6 +6,7 @@ import time
 import requests
 from datetime import datetime
 import config.config as config
+import config.creds as creds
 # from dotenv import load_dotenv
 # from pathlib import Path
 # import os
@@ -26,40 +27,36 @@ lista = []
 lista2 = []
 cont = 0
 
-headers = config.headers
+headers = {
+    "accept": "application/json",
+    "User-Agent": "Telegram Bot SDK - (https://github.com/irazasyed/telegram-bot-sdk)",
+    "content-type": "application/json"
+}
 
 
-def csave():
-    f = open("data/creds", "a")
-    TOKEN_ID = input("> Inserisci il Token del Bot: ")
-    CHAT_ID = input("> Inserisci il nome della Chat Telegram: ")
-    REFFERAL_CODE = input("> Inserisci il Refferal Code di Amazon Affiliate: ")
-    f.write(TOKEN_ID + "," + CHAT_ID + "," + REFFERAL_CODE)
-    f.close()
-    return {"TOKEN_ID": TOKEN_ID,
-            "CHAT_ID": CHAT_ID,
-            "REFFERAL_CODE": REFFERAL_CODE}
+# def csave():
+#     f = open("data/creds", "a")
+#     TOKEN_ID = input("> Inserisci il Token del Bot: ")
+#     CHAT_ID = input("> Inserisci il nome della Chat Telegram: ")
+#     REFFERAL_CODE = input("> Inserisci il Refferal Code di Amazon Affiliate: ")
+#     f.write(TOKEN_ID + "," + CHAT_ID + "," + REFFERAL_CODE)
+#     f.close()
+#     return {"TOKEN_ID": TOKEN_ID,
+#             "CHAT_ID": CHAT_ID,
+#             "REFFERAL_CODE": REFFERAL_CODE}
 
 
-def login():
-    f = open("data/creds", "r").read()
-    x = list(f.split(","))
-    return {"TOKEN_ID": x[0],
-            "CHAT_ID": x[1],
-            "REFFERAL_CODE": x[2]}
+# def login():
+#     f = open("data/creds", "r").read()
+#     x = list(f.split(","))
+#     return {"TOKEN_ID": x[0],
+#             "CHAT_ID": x[1],
+#             "REFFERAL_CODE": x[2]}
 
 
-try:
-    creds = login()
-    apiToken = creds["TOKEN_ID"]
-    chatID = creds["CHAT_ID"]
-    refferal = creds["REFFERAL_CODE"]
-
-except:
-    creds = csave()
-    apiToken = creds["TOKEN_ID"]
-    chatID = creds["CHAT_ID"]
-    refferal = creds["REFFERAL_CODE"]
+apiToken = creds.bot["TOKEN"]
+chatID = creds.bot["CHANNEL"]
+refferal = creds.bot["REFFERAL"]
 
 
 def orologio(timer):
@@ -92,7 +89,7 @@ def send_to_telegram(message):
     product_title = message["product_title"]
     code = codegen()
 
-    apiURL = f'https://api.telegram.org/bot{apiToken}/sendMessage?chat_id=@{chatID}&parse_mode=HTML&text=⌛️OFFERTA A TEMPO⌛️\n\n<b>{product_title[:90]}</b>\n\nPrezzo: <b>{discounted_price}</b> <s>{original_price}</s>\nSconto: <b>{discounted_percentage}</b>\nLink: <a href="{link}">https://amzn.to/{code}</a>'
+    apiURL = f'https://api.telegram.org/bot{apiToken}/sendMessage?chat_id={chatID}'
 
     # api = {"URL": url, "discounted_price": discounted_price, "original_price": original_price, "discount_percentage": discount_percentage}
 
@@ -101,7 +98,25 @@ def send_to_telegram(message):
             print("ora (" + datetime.now().strftime('%H:%M') + "): Errore di Codifica")
             pass
         else:
-            response = requests.post(apiURL).json
+            text = f'⌛️OFFERTA A TEMPO⌛️\n\n<b>{product_title[:90]}</b>\n\nPrezzo: <b>{discounted_price}</b> <s>{original_price}</s>\nSconto: <b>{discounted_percentage}</b>\nLink: <a href="{link}">https://amzn.to/{code}</a>'
+
+            headers = {
+                "accept": "application/json",
+                "User-Agent": "Telegram Bot SDK - (https://github.com/irazasyed/telegram-bot-sdk)",
+                "content-type": "application/json"
+            }
+
+            payload = {
+                'parse_mode': 'HTML', 'text': text, 'parse_mode': "HTML", "disable_web_page_preview": False, 'reply_markup': {"inline_keyboard": [[{"text": "COMPRA", "url": link}]]}}
+
+            headers = {
+                "accept": "application/json",
+                "content-type": "application/json"
+            }
+
+            response = requests.post(
+                apiURL, headers=headers, json=payload).json
+
             if str(response) == "<bound method Response.json of <Response [200]>>":
                 adesso = datetime.now().strftime('%H:%M')
                 print("\n_____________________________\n")
@@ -205,7 +220,7 @@ if __name__ == "__main__":
 
     while cont <= 1:
 
-        for x in config.url:
+        for x in config.data["URL"]:
             trova(x)
         lista = list(dict.fromkeys(lista))
         lista = random.sample(lista, len(lista))

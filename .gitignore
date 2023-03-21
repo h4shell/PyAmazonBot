@@ -2,6 +2,7 @@
 .backupList.csv
 data/creds
 data/backupList.csv
+config/creds.py
 __pycache__
 
 
